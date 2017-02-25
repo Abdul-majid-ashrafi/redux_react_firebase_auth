@@ -34,14 +34,16 @@ class Register extends Component {
             email: this.state.email,
             pass: this.state.pass
         }
+        // console.log(this.state)
         FirebaseService.customAuth(newUser).then((user) => {
             multipath[`users/${user.uid}`] = newUser;
             FirebaseService.saveMultipath(multipath)
             newUser['uid'] = this.state.uid
+            this.props.signUp(this.state)
             // console.log(user.uid)
             localStorage.setItem('currentUser', user.uid);
             this.context.router.push({
-            pathname: "/home"
+                pathname: "/home"
             })
         }).catch((error) => alert(error.message))
 
